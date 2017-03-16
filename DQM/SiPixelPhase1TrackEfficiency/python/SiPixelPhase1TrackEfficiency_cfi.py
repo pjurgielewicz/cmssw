@@ -9,6 +9,15 @@ SiPixelPhase1TrackEfficiencyValid = DefaultHistoTrack.clone(
   specs = VPSet(
     StandardSpecifications1D_Num,
     StandardSpecification2DOccupancy,
+
+    Specification().groupBy("PXBarrel/PXLayer/Event") #this will produce inclusive counts per Layer/Disk
+                             .reduce("COUNT")    
+                             .groupBy("PXBarrel/PXLayer")
+                             .save(100, 0, 10000),
+    Specification().groupBy("PXForward/PXDisk/Event")
+                             .reduce("COUNT")    
+                             .groupBy("PXForward/PXDisk/")
+                             .save(200, 0, 30000)
   )
 )
 
@@ -20,6 +29,15 @@ SiPixelPhase1TrackEfficiencyMissing = DefaultHistoTrack.clone(
   specs = VPSet(
     StandardSpecifications1D_Num,
     StandardSpecification2DOccupancy,
+
+    Specification().groupBy("PXBarrel/PXLayer/Event") #this will produce inclusive counts per Layer/Disk
+                             .reduce("COUNT")    
+                             .groupBy("PXBarrel/PXLayer")
+                             .save(100, 0, 10000),
+    Specification().groupBy("PXForward/PXDisk/Event")
+                             .reduce("COUNT")    
+                             .groupBy("PXForward/PXDisk/")
+                             .save(200, 0, 30000)
   )
 )
 

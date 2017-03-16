@@ -219,12 +219,26 @@ class Specification(cms.PSet):
     if self._state == STAGE1:
       # end of STAGE1, fix the parameter assignments
       n = 1
-      if self._x.type == USE_X: self._x.arg = cms.string(str(n)); n = n+1
-      if self._y.type == USE_Y: self._y.arg = cms.string(str(n)); n = n+1
-      if self._z.type == USE_Z: self._z.arg = cms.string(str(n)); n = n+1
+      if self._x.type == USE_X: 
+        self._x.arg = cms.string(str(n))
+        n = n+1
+        self._x.nbins = cms.int32(nbins)
+        self._x.xmin = cms.int32(xmin)
+        self._x.xmax = cms.int32(xmax)
+      if self._y.type == USE_Y: 
+        self._y.arg = cms.string(str(n)) 
+        n = n+1
+        self._y.nbins = cms.int32(nbins)
+        self._y.xmin = cms.int32(xmin)
+        self._y.xmax = cms.int32(xmax)  
+      if self._z.type == USE_Z: 
+        self._z.arg = cms.string(str(n)) 
+        n = n+1
+        self._z.nbins = cms.int32(nbins)
+        self._z.xmin = cms.int32(xmin)
+        self._z.xmax = cms.int32(xmax)
       # we don't know how many parameters the user wants to pass here, but the 
       # HistogramManager knows. So we just add 3.
-
     # SAVE is implicit in step1 and ignored in harvesting, so not really needed.
     # self.spec.append(cms.PSet(
      # type = SAVE, 
@@ -233,15 +247,7 @@ class Specification(cms.PSet):
      # arg = cms.string(""),
     # ))
     self._state = STAGE2
-	
-    # self.spec[len(self.spec) - 1].nbins = cms.int32(nbins)
-    # self.spec[len(self.spec) - 1].xmin = cms.int32(xmin)
-    # self.spec[len(self.spec) - 1].xmax = cms.int32(xmax)
-	
-    self.spec[-1].nbins = cms.int32(nbins)
-    self.spec[-1].xmin = cms.int32(xmin)
-    self.spec[-1].xmax = cms.int32(xmax)
-	
+
     return self
 
   def saveAll(self):
