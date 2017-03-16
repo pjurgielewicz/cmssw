@@ -145,7 +145,8 @@ class Specification(cms.PSet):
       type = t, 
       stage = self._state, 
       columns = cms.vstring(cname),
-      arg = cms.string(mode)
+      arg = cms.string(mode),
+      nbins = cms.int32(-1), xmin = cms.int32(0), xmax = cms.int32(0)
     ))
 
     # In the very beginning emit standard column assignments, they will be 
@@ -154,19 +155,22 @@ class Specification(cms.PSet):
       self._x = cms.PSet(
         type = USE_X, stage = STAGE1,
         columns = cms.vstring(),
-        arg = cms.string("")
+        arg = cms.string(""),
+        nbins = cms.int32(-1), xmin = cms.int32(0), xmax = cms.int32(0)
       )
       self.spec.append(self._x)
       self._y = cms.PSet(
         type = USE_Y, stage = STAGE1,
         columns = cms.vstring(),
-        arg = cms.string("")
+        arg = cms.string(""),
+        nbins = cms.int32(-1), xmin = cms.int32(0), xmax = cms.int32(0)
       )
       self.spec.append(self._y)
       self._z = cms.PSet(
         type = USE_Z, stage = STAGE1,
         columns = cms.vstring(),
-        arg = cms.string("")
+        arg = cms.string(""),
+        nbins = cms.int32(-1), xmin = cms.int32(0), xmax = cms.int32(0)
       )
       self.spec.append(self._z)
 
@@ -191,7 +195,8 @@ class Specification(cms.PSet):
       if sort == "MEAN":
         self.spec.append(cms.PSet(
           type = PROFILE, stage = STAGE1,
-          columns = cms.vstring(), arg = cms.string("")
+          columns = cms.vstring(), arg = cms.string(""),
+          nbins = cms.int32(-1), xmin = cms.int32(0), xmax = cms.int32(0)
         ))
       return self
 
@@ -202,11 +207,12 @@ class Specification(cms.PSet):
       type = REDUCE, 
       stage = self._state, 
       columns = cms.vstring(),
-      arg = cms.string(sort)
+      arg = cms.string(sort),
+      nbins = cms.int32(-1), xmin = cms.int32(0), xmax = cms.int32(0)
     ))
     return self
 
-  def save(self):
+  def save(self, nbins = -1, xmin = 0, xmax = 0):
     if self._state == FIRST:
       raise Exception("First statement must be groupBy.")
 
@@ -220,13 +226,22 @@ class Specification(cms.PSet):
       # HistogramManager knows. So we just add 3.
 
     # SAVE is implicit in step1 and ignored in harvesting, so not really needed.
-    #self.spec.append(cms.PSet(
-    #  type = SAVE, 
-    #  stage = self._state, 
-    #  columns = cms.vstring(),
-    #  arg = cms.string("")
-    #))
+    # self.spec.append(cms.PSet(
+     # type = SAVE, 
+     # stage = self._state, 
+     # columns = cms.vstring(),
+     # arg = cms.string(""),
+    # ))
     self._state = STAGE2
+	
+    # self.spec[len(self.spec) - 1].nbins = cms.int32(nbins)
+    # self.spec[len(self.spec) - 1].xmin = cms.int32(xmin)
+    # self.spec[len(self.spec) - 1].xmax = cms.int32(xmax)
+	
+    self.spec[-1].nbins = cms.int32(nbins)
+    self.spec[-1].xmin = cms.int32(xmin)
+    self.spec[-1].xmax = cms.int32(xmax)
+	
     return self
 
   def saveAll(self):

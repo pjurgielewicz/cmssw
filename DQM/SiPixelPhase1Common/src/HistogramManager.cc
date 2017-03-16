@@ -353,7 +353,7 @@ void HistogramManager::book(DQMStore::IBooker& iBooker,
         for (auto it = firststep+1; it != laststep; ++it) {
           switch (it->type) {
             case SummationStep::USE_X:
-              if (it->arg[0] == '1' && n_parameters >= 1) { SET_AXIS(x, x); }
+              if (it->arg[0] == '1' && n_parameters >= 1) { SET_AXIS(x, x); }  // TODO: make use of current nbins, xmin, xmax if set
               if (it->arg[0] == '2' && n_parameters >= 2) { SET_AXIS(x, y); }
               break;
             case SummationStep::USE_Y:
