@@ -212,7 +212,7 @@ class Specification(cms.PSet):
     ))
     return self
 
-  def save(self, nbins = -1, xmin = 0, xmax = 0):
+  def save(self, nbins = -1, xmin = 0, xmax = 0): #BE AWARE: only the last save in specification chain with non-default params can change 1D histogram range, otherwise the default binning will be used
     if self._state == FIRST:
       raise Exception("First statement must be groupBy.")
 
@@ -239,6 +239,7 @@ class Specification(cms.PSet):
         self._z.xmax = cms.int32(xmax)
       # we don't know how many parameters the user wants to pass here, but the 
       # HistogramManager knows. So we just add 3.
+
     # SAVE is implicit in step1 and ignored in harvesting, so not really needed.
     # self.spec.append(cms.PSet(
      # type = SAVE, 

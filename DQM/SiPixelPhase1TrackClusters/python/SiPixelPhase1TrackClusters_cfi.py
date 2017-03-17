@@ -32,6 +32,11 @@ SiPixelPhase1TrackClustersOnTrackNClusters = DefaultHistoTrack.clone(
   range_min = 0, range_max = 10, range_nbins = 10,
   xlabel = "clusters",
   dimensions = 0,
+
+  useExtendedXAxis = True
+  extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel = 100, 0, 10000
+  extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward = 200, 0, 30000
+
   specs = VPSet(
     Specification().groupBy("PXBarrel/PXLayer" + "/DetId/Event") 
                    .reduce("COUNT") 
@@ -42,7 +47,16 @@ SiPixelPhase1TrackClustersOnTrackNClusters = DefaultHistoTrack.clone(
                    .groupBy("PXForward/PXDisk")
                    .saveAll(),
     StandardSpecificationInclusive_Num,
-    StandardSpecificationTrend_Num
+    StandardSpecificationTrend_Num,
+
+    Specification().groupBy("PXBarrel/PXLayer/Event") #this will produce inclusive counts per Layer/Disk
+                             .reduce("COUNT")    
+                             .groupBy("PXBarrel/PXLayer")
+                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel))),
+    Specification().groupBy("PXForward/PXDisk/Event")
+                             .reduce("COUNT")    
+                             .groupBy("PXForward/PXDisk/")
+                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward))),
   )
 )
 

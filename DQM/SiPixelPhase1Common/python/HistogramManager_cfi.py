@@ -91,7 +91,15 @@ DefaultHisto = cms.PSet(
   #   )
   # )
   #)
+
+  # extended range parameters (to be used with save() function)
+  useExtendedXAxis = False
+  extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel = -1, 0, 100
+  extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward = -1, 0, 100
 )
+
+def BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbins, extendedRangeXmin, extendedRangeXmax):
+  return [extendedRangeNbins, extendedRangeXmin, extendedRangeXmax] if useExtendedXAxis else []
 
 DefaultHistoDigiCluster=DefaultHisto.clone()
 DefaultHistoDigiCluster.topFolderName= cms.string("PixelPhase1/Phase1_MechanicalView")
