@@ -73,7 +73,7 @@ DefaultHisto = cms.PSet(
   range_y_nbins = cms.int32(100),
 
   # This structure is output by the SpecficationBuilder.
-  specs = cms.VPSet()
+  specs = cms.VPSet(),
   #  cms.PSet(spec = 
   #    cms.VPset(
   #      cms.PSet(
@@ -91,15 +91,18 @@ DefaultHisto = cms.PSet(
   #   )
   # )
   #)
-
-  # extended range parameters (to be used with save() function)
-  useExtendedXAxis = False
-  extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel = -1, 0, 100
-  extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward = -1, 0, 100
 )
 
-def BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbins, extendedRangeXmin, extendedRangeXmax):
-  return [extendedRangeNbins, extendedRangeXmin, extendedRangeXmax] if useExtendedXAxis else []
+# def BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbins, extendedRangeXmin, extendedRangeXmax):
+  # return [extendedRangeNbins, extendedRangeXmin, extendedRangeXmax] if useExtendedXAxis else []
+
+class XaxisRanges:
+  def __init__(self, useExtendedXAxis = False,
+                     extendedRangeNbins = -1, extendedRangeXmin = 0, extendedRangeXmax = 100):
+    self.useExtendedXAxis = useExtendedXAxis
+    self.extendedRangeNbins, self.extendedRangeXmin, self.extendedRangeXmax = extendedRangeNbins, extendedRangeXmin, extendedRangeXmax
+  def toParamList(self):
+    return [self.extendedRangeNbins, self.extendedRangeXmin, self.extendedRangeXmax] if self.useExtendedXAxis else []
 
 DefaultHistoDigiCluster=DefaultHisto.clone()
 DefaultHistoDigiCluster.topFolderName= cms.string("PixelPhase1/Phase1_MechanicalView")

@@ -1,11 +1,17 @@
 import FWCore.ParameterSet.Config as cms
 from DQM.SiPixelPhase1Common.HistogramManager_cfi import *
 
+
+
+xRangeBarrel_EfficiencyValid = XaxisRanges(True, 100, 0, 10000)
+xRangeForward_EfficiencyValid = XaxisRanges(True, 200, 0, 30000)
+
 SiPixelPhase1TrackEfficiencyValid = DefaultHistoTrack.clone(
   name = "valid",
   title = "Valid Hits",
   xlabel = "valid hits",
   dimensions = 0,
+
   specs = VPSet(
     StandardSpecifications1D_Num,
     StandardSpecification2DOccupancy,
@@ -13,13 +19,16 @@ SiPixelPhase1TrackEfficiencyValid = DefaultHistoTrack.clone(
     Specification().groupBy("PXBarrel/PXLayer/Event") #this will produce inclusive counts per Layer/Disk
                              .reduce("COUNT")    
                              .groupBy("PXBarrel/PXLayer")
-                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel))),
+                             .save(*(xRangeBarrel_EfficiencyValid.toParamList())),
     Specification().groupBy("PXForward/PXDisk/Event")
                              .reduce("COUNT")    
                              .groupBy("PXForward/PXDisk/")
-                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward))),
+                             .save(*(xRangeForward_EfficiencyValid.toParamList())),
   )
 )
+
+xRangeBarrel_EfficiencyMissing = XaxisRanges(True, 100, 0, 10000)
+xRangeForward_EfficiencyMissing = XaxisRanges(True, 200, 0, 30000)
 
 SiPixelPhase1TrackEfficiencyMissing = DefaultHistoTrack.clone(
   name = "missing",
@@ -27,10 +36,6 @@ SiPixelPhase1TrackEfficiencyMissing = DefaultHistoTrack.clone(
   xlabel = "missing hits",
   dimensions = 0,
 
-  useExtendedXAxis = True
-  extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel = 100, 0, 10000
-  extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward = 200, 0, 30000
-
   specs = VPSet(
     StandardSpecifications1D_Num,
     StandardSpecification2DOccupancy,
@@ -38,11 +43,11 @@ SiPixelPhase1TrackEfficiencyMissing = DefaultHistoTrack.clone(
     Specification().groupBy("PXBarrel/PXLayer/Event") #this will produce inclusive counts per Layer/Disk
                              .reduce("COUNT")    
                              .groupBy("PXBarrel/PXLayer")
-                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel))),
+                             .save(*(xRangeBarrel_EfficiencyMissing.toParamList())),
     Specification().groupBy("PXForward/PXDisk/Event")
                              .reduce("COUNT")    
                              .groupBy("PXForward/PXDisk/")
-                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward))),
+                             .save(*(xRangeForward_EfficiencyMissing.toParamList())),
   )
 )
 

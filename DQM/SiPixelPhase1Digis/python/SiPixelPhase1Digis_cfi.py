@@ -19,6 +19,9 @@ SiPixelPhase1DigisADC = DefaultHistoDigiCluster.clone(
   )
 )
 
+xRangeBarrel_Ndigis = XaxisRanges(True, 100, 0, 10000)
+xRangeForward_Ndigis = XaxisRanges(True, 200, 0, 30000)
+
 SiPixelPhase1DigisNdigis = DefaultHistoDigiCluster.clone(
   name = "digis", # 'Count of' added automatically
   title = "Digis",
@@ -28,10 +31,6 @@ SiPixelPhase1DigisNdigis = DefaultHistoDigiCluster.clone(
   range_nbins = 30,
   dimensions = 0, # this is a count
 
-  useExtendedXAxis = True
-  extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel = 100, 0, 10000
-  extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward = 200, 0, 30000
-
   specs = VPSet(
     StandardSpecificationTrend_Num,
     StandardSpecification2DProfile_Num,
@@ -40,11 +39,11 @@ SiPixelPhase1DigisNdigis = DefaultHistoDigiCluster.clone(
     Specification().groupBy("PXBarrel/PXLayer/Event") #this will produce inclusive counts per Layer/Disk
                              .reduce("COUNT")    
                              .groupBy("PXBarrel/PXLayer")
-                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel))),
+                             .save(*(xRangeBarrel_Ndigis.toParamList())),
     Specification().groupBy("PXForward/PXDisk/Event")
                              .reduce("COUNT")    
                              .groupBy("PXForward/PXDisk/")
-                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward))),
+                             .save(*(xRangeForward_Ndigis.toParamList())),
   )
 )
 

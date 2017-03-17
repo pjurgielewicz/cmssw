@@ -58,6 +58,8 @@ SiPixelPhase1ClustersSizeY = DefaultHistoDigiCluster.clone(
   )
 )
 
+xRangeBarrel_NClusters = XaxisRanges(True, 100, 0, 10000)
+xRangeForward_NClusters = XaxisRanges(True, 200, 0, 30000)
 
 SiPixelPhase1ClustersNClusters = DefaultHistoDigiCluster.clone(
   name = "clusters",
@@ -65,10 +67,6 @@ SiPixelPhase1ClustersNClusters = DefaultHistoDigiCluster.clone(
   range_min = 0, range_max = 10, range_nbins = 10,
   xlabel = "clusters",
   dimensions = 0,
-
-  useExtendedXAxis = True
-  extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel = 100, 0, 10000
-  extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward = 200, 0, 30000
 
   specs = VPSet(
     StandardSpecificationOccupancy,
@@ -79,11 +77,11 @@ SiPixelPhase1ClustersNClusters = DefaultHistoDigiCluster.clone(
     Specification().groupBy("PXBarrel/PXLayer/Event") #this will produce inclusive counts per Layer/Disk
                              .reduce("COUNT")    
                              .groupBy("PXBarrel/PXLayer")
-                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsBarrel, extendedRangeXminBarrel, extendedRangeXmaxBarrel))),
+                             .save(*(xRangeBarrel_NClusters.toParamList())),
     Specification().groupBy("PXForward/PXDisk/Event")
                              .reduce("COUNT")    
                              .groupBy("PXForward/PXDisk/")
-                             .save(*(BuildExtendedSaveParameters(useExtendedXAxis, extendedRangeNbinsForward, extendedRangeXminForward, extendedRangeXmaxForward))),
+                             .save(*(xRangeForward_NClusters.toParamList())),
   )
 )
 
