@@ -1,4 +1,18 @@
 import FWCore.ParameterSet.Config as cms
+import FWCore.ParameterSet.VarParsing as VarParsing
+options = VarParsing.VarParsing("analysis")
+
+###################### OPTIONS HANDLER
+
+options.register ("globalTag",                                  # option name
+                  "90X_upgrade2017_realistic_v6",               # default value
+                  VarParsing.VarParsing.multiplicity.singleton, # singleton or list
+                  VarParsing.VarParsing.varType.string,         # string, bool, int, or float
+                  "Global Tag")                                 # ? help ?
+                  
+options.parseArguments()
+
+######################
 
 process = cms.Process("Demo")
 
@@ -14,15 +28,13 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1) )
 #)
 process.source = cms.Source("EmptySource")
 
-process.demo = cms.EDAnalyzer('SiPixelPhase1CablingAnalyzer'
+process.demo = cms.EDAnalyzer("SiPixelPhase1CablingAnalyzer"
 )
-
 
 process.p = cms.Path(process.demo)
 
-
 process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
 
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, '90X_upgrade2017_realistic_v6', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, options.globalTag, "")

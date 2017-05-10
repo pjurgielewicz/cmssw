@@ -82,18 +82,21 @@ SiPixelPhase1CablingAnalyzer::analyze(const edm::Event& iEvent, const edm::Event
       ++i;
     }
   }
-  ofstream file("dbCablData.dat");
+  
+  // ofstream file("dbCablData.dat");
   for ( auto& elem: dataDic )
   {
     unsigned fed = elem.second[0];
-    file << elem.first << " " << fed << " "; 
+    cout << elem.first << " " << fed << " "; 
     for ( unsigned i = 1; i < elem.second.size(); ++i )
     {
-      file << elem.second[i] << "/";
+      cout << elem.second[i] << "/";
     }
-    file << endl;
+    cout << endl;
   }
-  file.close();
+  // file.close();
+  
+  
   // cout << cablingTree->print(34) << endl;
 
   // # MIN FED NUMBER: phase0 = 0 (FEDNumbering::MINSiPixelFEDID), phase1 = 1200 (FEDNumbering::MINSiPixeluTCAFEDID)
