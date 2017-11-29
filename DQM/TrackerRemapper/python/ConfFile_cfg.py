@@ -16,7 +16,7 @@ defaultAnylyzeMode = RECHITS
 ###################### OPTIONS HANDLER
 
 options.register ("opMode",                                  
-                  MODE_REMAP,               
+                  MODE_ANALYZE,               
                   VarParsing.VarParsing.multiplicity.singleton, 
                   VarParsing.VarParsing.varType.int,         
                   "Operation Mode")   
@@ -34,8 +34,8 @@ options.register ("eventLimit",
                   "Limits Events Processed in Analyze Mode") 
 
 options.register ("inputRootFile",                                  
-                  "DQM_V0001_SiStrip_R000305516.root", 
-                #   "file:RECO_file.root",   
+                #   "DQM_V0001_SiStrip_R000305516.root", 
+                  "file:RECO_file.root",   
                     # "/store/express/Run2017H/ExpressPhysics/FEVT/Express-v1/000/306/936/00000/ECE8DA52-3ACF-E711-84A0-02163E0141ED.root",                       
                   VarParsing.VarParsing.multiplicity.singleton, 
                   VarParsing.VarParsing.varType.string,         
@@ -55,7 +55,7 @@ options.register (
                   "Collection Source")    #??
 
 options.register ("globalTag",                                  # option name
-                  "90X_upgrade2017_realistic_v6",                # default value
+                  "92X_upgrade2017_realistic_v11",                # default value
                   VarParsing.VarParsing.multiplicity.singleton, # singleton or list
                   VarParsing.VarParsing.varType.string,         # string, bool, int, or float
                   "Global Tag")                                 # ? help ?
