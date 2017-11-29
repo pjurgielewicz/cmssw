@@ -325,9 +325,9 @@ void TrackerRemapper::FillStripRemap()
       return;
     }
     
-    for (unsigned binx = 1; binx < (unsigned)nchX; ++binx)
+    for (unsigned binx = 1; binx <= (unsigned)nchX; ++binx)
     {
-      for (unsigned biny = 1; biny < (unsigned)nchY; ++biny)
+      for (unsigned biny = 1; biny <= (unsigned)nchY; ++biny)
       {
         long rawid = tkdetmap->getDetFromBin(layer, binx, biny);
         
